@@ -1,3 +1,4 @@
+import { Section } from '@/types/types';
 import {
     CalendarIcon,
     ClockIcon,
@@ -7,9 +8,9 @@ import {
     RocketLaunchIcon,
     Squares2X2Icon,
     UsersIcon,
-} from '@heroicons/react/24/outline'
+} from '@heroicons/react/24/outline';
 
-export const sections = [
+export const sections: Section[] = [
     {
         header: null,
         items: [

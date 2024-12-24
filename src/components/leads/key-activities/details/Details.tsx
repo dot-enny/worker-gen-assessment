@@ -29,39 +29,39 @@ export const Details = () => {
 }
 
 
-const LeadCarousel = () => {
+// const LeadCarousel = () => {
 
-  const leadCards = [<LeadCard />, <LeadCard />, <LeadCard />, <LeadCard />, <LeadCard />];
+//   const leadCards = [<LeadCard />, <LeadCard />, <LeadCard />, <LeadCard />, <LeadCard />];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+//   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handlePrev = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === 0 ? leadCards.length - 1 : prevIndex - 1));
-  };
+//   const handlePrev = () => {
+//     setCurrentIndex((prevIndex) => (prevIndex === 0 ? leadCards.length - 1 : prevIndex - 1));
+//   };
 
-  const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex === leadCards.length - 1 ? 0 : prevIndex + 1));
-  };
+//   const handleNext = () => {
+//     setCurrentIndex((prevIndex) => (prevIndex === leadCards.length - 1 ? 0 : prevIndex + 1));
+//   };
 
-  return (
-    <div className="relative">
-      <button onClick={handlePrev} className="absolute left-0 top-1/2 transform -translate-y-1/2">
-        <ChevronLeftIcon className="size-5" />
-      </button>
-      <div className="flex gap-x-4 mt-4 overflow-hidden">
-        {leadCards.map((card, index) => (
-          <div
-            key={index}
-            className={`flex-shrink-0 w-1/2 transition-transform duration-300 ease-in-out transform ${index === currentIndex ? "translate-x-0" : index < currentIndex ? "-translate-x-full" : "translate-x-full"
-              }`}
-          >
-            {card}
-          </div>
-        ))}
-      </div>
-      <button onClick={handleNext} className="absolute right-0 top-1/2 transform -translate-y-1/2">
-        <ChevronRightIcon className="size-5" />
-      </button>
-    </div>
-  );
-}
+//   return (
+//     <div className="relative">
+//       <button onClick={handlePrev} className="absolute left-0 top-1/2 transform -translate-y-1/2">
+//         <ChevronLeftIcon className="size-5" />
+//       </button>
+//       <div className="flex gap-x-4 mt-4 overflow-hidden">
+//         {leadCards.map((card, index) => (
+//           <div
+//             key={index}
+//             className={`flex-shrink-0 w-1/2 transition-transform duration-300 ease-in-out transform ${index === currentIndex ? "translate-x-0" : index < currentIndex ? "-translate-x-full" : "translate-x-full"
+//               }`}
+//           >
+//             {card}
+//           </div>
+//         ))}
+//       </div>
+//       <button onClick={handleNext} className="absolute right-0 top-1/2 transform -translate-y-1/2">
+//         <ChevronRightIcon className="size-5" />
+//       </button>
+//     </div>
+//   );
+// }

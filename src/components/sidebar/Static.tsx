@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ActionButton } from './ActionButton';
 import { classNames } from "@/utils/helpers/classNames";
 import { sections } from "@/json-data/NavData";
+import { Section } from '@/types/types';
 
 
 export const StaticSidebar = () => {
@@ -29,7 +30,7 @@ export const StaticSidebar = () => {
     )
 };
 
-const SidebarSection = ({ section, location }: { section: any, location: string }) => {
+const SidebarSection = ({ section, location }: { section: Section, location: string }) => {
     return (
         <li>
             {section.header && <div className="text-xs/6 font-semibold text-gray-700">{section.header}</div>}

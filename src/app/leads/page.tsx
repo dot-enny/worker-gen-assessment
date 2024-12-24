@@ -10,7 +10,7 @@ import { useState } from "react";
 export default function Leads() {
     const [isLeadOpen, setIsLeadOpen] = useState(false);
     const [lead, setLead] = useState<Lead | null>(null);
-    const showLeadDetails = (val: any) => {
+    const showLeadDetails = (val: Lead) => {
         setIsLeadOpen(isLeadOpen => !isLeadOpen);
         setLead(val)
     };
