@@ -4,17 +4,24 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { classNames } from '@/utils/helpers/classNames'
 import { Lead } from '@/types/types';
 import { leads } from '@/json-data/LeadsData';
+import { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps } from '@/types/TablePropTypes';
 
+const filterLeads = (leads: Lead[], searchQuery: string) => {
+    return leads.filter(lead =>
+        lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.statusReason.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        lead.createdOn.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+};
 
-interface TableProps {
-    showLeadDetails: (lead: Lead) => void;
-}
 
 export default function Table({ showLeadDetails }: TableProps) {
     const checkbox = useRef<HTMLInputElement>(null)
     const [checked, setChecked] = useState(false)
     const [indeterminate, setIndeterminate] = useState(false)
     const [selectedLeads, setSelectedLeads] = useState<typeof leads>([])
+    const [searchQuery, setSearchQuery] = useState('')
 
     useLayoutEffect(() => {
         const isIndeterminate = selectedLeads.length > 0 && selectedLeads.length < leads.length
@@ -31,9 +38,11 @@ export default function Table({ showLeadDetails }: TableProps) {
         setIndeterminate(false)
     }
 
+    const filteredLeads = filterLeads(leads, searchQuery);
+
     return (
         <div className="border shadow bg-white mt-8 rounded">
-            <SearchBar />
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <div className="mt-8 flow-root bg-white overflow-auto">
                 <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -48,7 +57,7 @@ export default function Table({ showLeadDetails }: TableProps) {
                                     </button>
                                 </div>
                             )}
-                            <TableBody checkbox={checkbox} checked={checked} toggleAll={toggleAll} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
+                            <TableBody checkbox={checkbox} checked={checked} toggleAll={toggleAll} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} filteredLeads={filteredLeads} />
                         </div>
                     </div>
                 </div>
@@ -57,29 +66,16 @@ export default function Table({ showLeadDetails }: TableProps) {
     )
 };
 
-interface TableBodyProps {
-    checkbox: React.RefObject<HTMLInputElement | null>;
-    checked: boolean;
-    toggleAll: () => void;
-    selectedLeads: typeof leads;
-    setSelectedLeads: React.Dispatch<React.SetStateAction<typeof leads>>;
-    showLeadDetails: (lead: Lead) => void;
-}
 
-const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails }: TableBodyProps) => {
+const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, filteredLeads }: TableBodyProps) => {
+
     return (
         <table className="min-w-full table-fixed divide-y divide-gray-300">
             <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} />
-            <TableRows leads={leads} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
+            <TableRows leads={filteredLeads} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
         </table>
     )
 };
-
-interface TableHeaderProps {
-    checkbox: React.RefObject<HTMLInputElement | null>;
-    checked: boolean;
-    toggleAll: () => void;
-}
 
 const TableHeader = ({ checkbox, checked, toggleAll }: TableHeaderProps) => {
     return (
@@ -132,13 +128,6 @@ const TableHeader = ({ checkbox, checked, toggleAll }: TableHeaderProps) => {
         </thead>
     )
 };
-
-interface TableRowsProps {
-    leads: Lead[];
-    selectedLeads: typeof leads;
-    setSelectedLeads: React.Dispatch<React.SetStateAction<typeof leads>>;
-    showLeadDetails: (lead: Lead) => void;
-}
 
 const TableRows = ({ leads, selectedLeads, setSelectedLeads, showLeadDetails }: TableRowsProps) => {
     return (
@@ -212,11 +201,17 @@ const Checkbox = ({ lead, selectedLeads, setSelectedLeads }: { lead: Lead, selec
     )
 };
 
-const SearchBar = () => {
+const SearchBar = ({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: React.Dispatch<React.SetStateAction<string>> }) => {
     return (
         <div className="sm:flex sm:items-center m-4">
             <div className="sm:flex-auto">
-                <input type="search" className="w-full border rounded-md shadow-sm sm:w-96 focus:outline-indigo-500 outline-offset-0 sm:text-sm px-3 py-2" placeholder="Sort, filter and search with Copilot" />
+                <input
+                    type="search"
+                    className="w-full border rounded-md shadow-sm sm:w-96 focus:outline-blue-500 outline-offset-0 sm:text-sm px-3 py-2"
+                    placeholder="Sort, filter and search with Copilot"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
             </div>
         </div>
     )
