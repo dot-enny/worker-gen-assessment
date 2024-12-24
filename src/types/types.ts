@@ -1,3 +1,5 @@
+import { ComponentType } from "react";
+
 export type Lead = {
     name: string;
     topic: string;
@@ -7,7 +9,10 @@ export type Lead = {
 export interface NavItem {
     name: string;
     href: string;
-    icon: React.ComponentType;
+    icon: ComponentType<{ 
+        "aria-hidden": boolean | undefined; 
+        className: string; 
+    }>;
     children?: NavItem[];
 };
 export interface Section {

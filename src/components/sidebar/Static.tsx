@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { ActionButton } from './ActionButton';
 import { classNames } from "@/utils/helpers/classNames";
 import { sections } from "@/json-data/NavData";
-import { Section } from '@/types/types';
+import { NavItem, Section } from '@/types/types';
 
 
 export const StaticSidebar = () => {
@@ -35,15 +35,15 @@ const SidebarSection = ({ section, location }: { section: Section, location: str
         <li>
             {section.header && <div className="text-xs/6 font-semibold text-gray-700">{section.header}</div>}
             <ul role="list" className="-mx-2 mt-2 space-y-1">
-                {section.items.map((item: any) => (
-                    <SidebarNavItem key={item.name || item.id} item={item} location={location} />
+                {section.items.map((item: NavItem) => (
+                    <SidebarNavItem key={item.name} item={item} location={location} />
                 ))}
             </ul>
         </li>
     )
 };
 
-const SidebarNavItem = ({ item, location }: { item: any, location: string }) => {
+const SidebarNavItem = ({ item, location }: { item: NavItem, location: string }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleOpen = () => {
@@ -51,7 +51,7 @@ const SidebarNavItem = ({ item, location }: { item: any, location: string }) => 
     };
 
     return (
-        <li key={item.name || item.id}>
+        <li key={item.name}>
             <div>
                 <Link
                     href={item.href}
@@ -66,7 +66,7 @@ const SidebarNavItem = ({ item, location }: { item: any, location: string }) => 
                     aria-controls={`children-${item.name}`}
                 >
                     {item.icon && (
-                        <item.icon aria-hidden="true" className="text-gray-600 size-4 shrink-0" />
+                        <item.icon aria-hidden={true} className="text-gray-600 size-4 shrink-0" />
                     )}
                     {item.name}
                     {item.children && (
@@ -80,8 +80,8 @@ const SidebarNavItem = ({ item, location }: { item: any, location: string }) => 
             {item.children && (
                 <ul className={classNames('space-y-1 nav-item-with-children grid transition-[grid-template-rows_500ms]', isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
                     <div className="overflow-hidden">
-                        {item.children.map((child: any) => (
-                            <SidebarNavItem key={child.name || child.id} item={child} location={location} />
+                        {item.children.map((child: NavItem) => (
+                            <SidebarNavItem key={child.name} item={child} location={location} />
                         ))}
                     </div>
                 </ul>
