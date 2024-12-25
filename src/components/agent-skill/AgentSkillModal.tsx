@@ -1,11 +1,10 @@
 'use client'
 
-import Modal from '../ui/Modal'
 import { HandThumbDownIcon, HandThumbUpIcon, PaperAirplaneIcon, PencilIcon } from '@heroicons/react/24/outline';
 import { EnvelopeIcon, SparklesIcon } from '@heroicons/react/24/solid';
-import { ActionButton } from '../sidebar/ActionButton';
-import { Avatar } from '../ui/Avatar';
 import { Lead } from '@/types/types';
+import Modal from '@/components/ui/Modal';
+import { ActionButton } from '@/components/sidebar/ActionButton';
 
 interface LeadDetailsModalProps {
     open: boolean,
@@ -13,7 +12,7 @@ interface LeadDetailsModalProps {
     lead: Lead | null
 }
 
-export default function LeadDetailsModal({ open, setOpen, lead }: LeadDetailsModalProps) {
+export default function AgentSkillModal({ open, setOpen, lead }: LeadDetailsModalProps) {
     return (
         lead && (
             <Modal open={open} setOpen={setOpen} header={<Header name={lead.name} />} body={<Body name={lead.name} topic={lead.topic} />} footer={<Footer />} />
@@ -35,7 +34,6 @@ const Body = ({ name, topic }: { name: string, topic: string }) => {
     return (
         <div className="w-full">
             <div className="flex gap-x-2 mt-4 p-2 border w-full rounded-lg">
-                <Avatar />
                 <div className="flex flex-col">
                     <span className="font-bold text-gray-700">{name}</span>
                     <span className="text-[10px]">COO &#183; Northwind Traders</span>

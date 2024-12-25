@@ -8,6 +8,7 @@ import {
     RocketLaunchIcon,
     Squares2X2Icon,
     UsersIcon,
+    WrenchScrewdriverIcon,
 } from '@heroicons/react/24/outline';
 
 export const sections: Section[] = [
@@ -36,8 +37,7 @@ export const sections: Section[] = [
         items: [
             { name: 'Sales accelerator', href: '#', icon: RocketLaunchIcon },
             { name: 'Dashboards', href: '#', icon: Squares2X2Icon },
-            { name: 'Activities', href: '#', icon: FolderIcon },
-            { name: 'Analytics', href: '#', icon: CalendarIcon },
+            { name: 'Activities', href: '#', icon: CalendarIcon },
         ],
     },
     {
@@ -51,6 +51,7 @@ export const sections: Section[] = [
         header: 'Sales',
         items: [
             { name: 'Leads', href: '/leads', icon: HomeIcon },
+            { name: 'Agent Skill', href: '/agent-skill', icon: WrenchScrewdriverIcon },
             { name: 'Opportunities', href: '#', icon: UsersIcon },
             { name: 'Competitiors', href: '#', icon: UsersIcon },
         ],
