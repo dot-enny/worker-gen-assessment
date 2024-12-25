@@ -1,4 +1,4 @@
-import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, ChevronDownIcon, Squares2X2Icon } from '@heroicons/react/24/outline'
 
 import { usePathname } from "next/navigation";
 import Link from 'next/link';
@@ -7,17 +7,24 @@ import { ActionButton } from './ActionButton';
 import { classNames } from "@/utils/helpers/classNames";
 import { sections } from "@/json-data/NavData";
 import { NavItem, Section } from '@/types/types';
+import { VerticalSeparator } from '../ui/VerticalSeparator';
 
 
 export const StaticSidebar = ({ isCollapsed, setIsCollapsed }: { isCollapsed: boolean, setIsCollapsed: (isCollapsed: boolean) => void }) => {
     const location = usePathname();
 
-    
+
 
     return (
         <div className="flex grow flex-col overflow-y-auto scroll border-r border-gray-200 bg-gray-100 px-6 pb-4">
             <div className="flex h-10 shrink-0 items-center">
-                <Bars3Icon aria-hidden="true" className="size-5 cursor-pointer" onClick={() => setIsCollapsed(!isCollapsed)} />
+                <Bars3Icon aria-hidden="true" className="size-5 cursor-pointe max-lg:hidden" onClick={() => setIsCollapsed(!isCollapsed)} />
+                <div className="flex-1 flex items-center gap-x-2 text-gray-400 pt-4">
+                    <Squares2X2Icon className="size-5" />
+                    <span className="text-sm">Dynamics 365</span>
+                    <VerticalSeparator className="h-4" />
+                    <span className="text-xs">Sales Hub</span>
+                </div>
             </div>
 
             {/* Navigation */}

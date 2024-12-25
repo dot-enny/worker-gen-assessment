@@ -15,7 +15,7 @@ export const Header = ({ setSidebarOpen }: { setSidebarOpen: (open: boolean) => 
 
       <div className="flex flex-1 items-center gap-x-4 self-stretch lg:gap-x-6">
         <div className="flex-1 flex items-center gap-x-2 text-gray-400 max-sm:hidden">
-          <ActionButton icon={Squares2X2Icon} srText="" />
+          <Squares2X2Icon className="size-5" />
           <span className="text-sm">Dynamics 365</span> 
           <VerticalSeparator className="h-4" /> 
           <span className="text-xs">Sales Hub</span>
