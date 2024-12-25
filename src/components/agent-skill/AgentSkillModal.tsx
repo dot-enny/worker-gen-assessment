@@ -43,12 +43,12 @@ const Body = () => {
                     <EnvelopeIcon className="size-6 text-blue-500" />
                     <span className="font-medium text-lg">Enable email access</span>
                 </div>
-                <p>Allow the agent to access email inboxes to read mail from know vendors</p>
+                <p className="text-gray-700">Allow the agent to access email inboxes to read mail from know vendors</p>
                 <div className="flex justify-between gap-x-3">
                     <input type="text" value="purchasing@contoso.com" 
-                        className="flex-1 rounded-md border border-gray-300 py- px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" disabled 
+                        className="flex-1 rounded-md border text-sm border-gray-300 py- px-3 focus:outline-none focus:ring-2 focus:ring-blue-500" disabled 
                     />
-                    <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">
+                    <button type="button" className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md">
                         Allow access
                     </button>
                 </div>
