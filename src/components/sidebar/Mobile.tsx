@@ -2,8 +2,14 @@ import { Dialog, DialogBackdrop, DialogPanel, TransitionChild } from "@headlessu
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { StaticSidebar } from "./Static";
 
+interface MobileSideBarProps {
+  sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
+  isCollapsed: boolean;
+  setIsCollapsed: (isCollapsed: boolean) => void;
+}
 
-export const MobileSideBar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: boolean, setSidebarOpen: (open: boolean) => void }) => {
+export const MobileSideBar = ({ sidebarOpen, setSidebarOpen, isCollapsed, setIsCollapsed }: MobileSideBarProps) => {
     return (
       <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
         <DialogBackdrop
@@ -25,7 +31,7 @@ export const MobileSideBar = ({ sidebarOpen, setSidebarOpen }: { sidebarOpen: bo
               </div>
             </TransitionChild>
             {/* Sidebar component, swap this element with another sidebar if you like */}
-            <StaticSidebar />
+            <StaticSidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           </DialogPanel>
         </div>
       </Dialog>
