@@ -19,7 +19,7 @@ export const StaticSidebar = ({ isCollapsed, setIsCollapsed }: { isCollapsed: bo
         <div className="flex grow flex-col overflow-y-auto scroll border-r border-gray-200 bg-gray-100 px-6 pb-4">
             <div className="flex h-10 shrink-0 items-center">
                 <Bars3Icon aria-hidden="true" className="size-5 cursor-pointe max-lg:hidden" onClick={() => setIsCollapsed(!isCollapsed)} />
-                <div className="flex-1 flex items-center gap-x-2 text-gray-400 pt-4">
+                <div className="flex-1 flex items-center gap-x-2 text-gray-400 pt-2 lg:hidden">
                     <Squares2X2Icon className="size-5" />
                     <span className="text-sm">Dynamics 365</span>
                     <VerticalSeparator className="h-4" />
