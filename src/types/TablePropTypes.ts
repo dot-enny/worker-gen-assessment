@@ -12,14 +12,16 @@ interface TableBodyProps {
     setSelectedLeads: React.Dispatch<React.SetStateAction<Lead[]>>;
     showLeadDetails: (lead: Lead) => void;
     leads: Lead[];
-    updateSortOptions: (sortOption: SortOptionType) => void;
+    updateSortOption: (sortOption: SortOptionType) => void;
+    selectedSortOption: SortOptionType | null
 }
 
 interface TableHeaderProps {
     checkbox: React.RefObject<HTMLInputElement | null>;
     checked: boolean;
     toggleAll: () => void;
-    updateSortOptions: (sortOption: SortOptionType) => void;
+    updateSortOption: (sortOption: SortOptionType) => void;
+    selectedSortOption: SortOptionType | null
 }
 interface TableRowsProps {
     leads: Lead[];

@@ -2,19 +2,17 @@ import { SortOptionType } from '@/types/TablePropTypes'
 import { classNames } from '@/utils/helpers/classNames'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { ChevronDownIcon, CheckIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
 
 interface SortMenuProps {
     sortOptions: SortOptionType[],
-    updateSortOptions: (sortOption: SortOptionType) => void
+    updateSortOption: (sortOption: SortOptionType) => void,
+    selectedSortOption: SortOptionType | null
 }
 
-export default function SortMenu({ sortOptions, updateSortOptions }: SortMenuProps) {
-    const [selectedItem, setSelectedItem] = useState<SortOptionType | null>(null)
+export default function SortMenu({ sortOptions, updateSortOption, selectedSortOption }: SortMenuProps) {
 
     const handleSelect = (item: SortOptionType) => {
-        setSelectedItem(item === selectedItem ? null : item)
-        updateSortOptions(item)
+        updateSortOption(item)
     };
 
     return (
@@ -37,7 +35,7 @@ export default function SortMenu({ sortOptions, updateSortOptions }: SortMenuPro
                             {({ focus }) => (
                                 <div
                                     onClick={() => handleSelect(item)}
-                                    className={`flex items-center justify-between gap-x-3 px-4 py-2 text-sm cursor-pointer ${selectedItem?.name === item.name
+                                    className={`flex items-center justify-between gap-x-3 px-4 py-2 text-sm cursor-pointer ${selectedSortOption?.name === item.name
                                         ? 'text-gray-900'
                                         : 'text-gray-700'
                                         } ${focus ? 'bg-gray-100' : ''}`}
@@ -46,7 +44,7 @@ export default function SortMenu({ sortOptions, updateSortOptions }: SortMenuPro
                                     <CheckIcon 
                                         aria-hidden="true"       
                                         className={classNames('w-5 h-5 text-blue-500', 
-                                            selectedItem?.name === item.name ? 'visible' : 'invisible'
+                                            selectedSortOption?.name === item.name ? 'visible' : 'invisible'
                                         )} 
                                     />
                                 </div>

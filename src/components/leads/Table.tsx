@@ -55,7 +55,7 @@ export default function Table({ showLeadDetails }: TableProps) {
     const checkbox = useRef<HTMLInputElement>(null);
 
     const { searchQuery, setSearchQuery, filteredLeads } = useFilterLeads(leads);
-    const { updateSortOptions, sortedLeads } = useSortLeads(filteredLeads);
+    const { sortOption, updateSortOption, sortedLeads } = useSortLeads(filteredLeads);
     const { checked, selectedLeads, setSelectedLeads, toggleAll } = useSelectLeads({ checkbox });
 
     return (
@@ -71,7 +71,8 @@ export default function Table({ showLeadDetails }: TableProps) {
                     setSelectedLeads={setSelectedLeads}
                     showLeadDetails={showLeadDetails}
                     leads={sortedLeads}
-                    updateSortOptions={updateSortOptions}
+                    updateSortOption={updateSortOption}
+                    selectedSortOption={sortOption}
                 />
             </TableContent>
         </TableContainer>
@@ -79,17 +80,17 @@ export default function Table({ showLeadDetails }: TableProps) {
 };
 
 
-const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, leads, updateSortOptions }: TableBodyProps) => {
+const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, leads, updateSortOption, selectedSortOption }: TableBodyProps) => {
 
     return (
         <table className="min-w-full table-fixed divide-y divide-gray-300">
-            <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} updateSortOptions={updateSortOptions} />
+            <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} updateSortOption={updateSortOption} selectedSortOption={selectedSortOption} />
             <TableRows leads={leads} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
         </table>
     )
 };
 
-const TableHeader = ({ checkbox, checked, toggleAll, updateSortOptions }: TableHeaderProps) => {
+const TableHeader = ({ checkbox, checked, toggleAll, updateSortOption, selectedSortOption }: TableHeaderProps) => {
     return (
         <thead className="">
             <tr>
@@ -127,7 +128,7 @@ const TableHeader = ({ checkbox, checked, toggleAll, updateSortOptions }: TableH
                 <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
                     <div className="flex">
                         <span className="mr-4">Name</span>
-                        <SortMenu sortOptions={sortData.nameOptions} updateSortOptions={updateSortOptions} />
+                        <SortMenu sortOptions={sortData.nameOptions} updateSortOption={updateSortOption} selectedSortOption={selectedSortOption} />
                     </div>
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
@@ -136,13 +137,13 @@ const TableHeader = ({ checkbox, checked, toggleAll, updateSortOptions }: TableH
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     <div className="flex">
                         <span className="mr-4">Status Reason</span>
-                        <SortMenu sortOptions={sortData.statusOptions} updateSortOptions={updateSortOptions} />
+                        <SortMenu sortOptions={sortData.statusOptions} updateSortOption={updateSortOption} selectedSortOption={selectedSortOption} />
                     </div>
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     <div className="flex">
                         <span className="mr-4">Created on</span>
-                        <SortMenu sortOptions={sortData.dateOptions} updateSortOptions={updateSortOptions} />
+                        <SortMenu sortOptions={sortData.dateOptions} updateSortOption={updateSortOption} selectedSortOption={selectedSortOption} />
                     </div>
                 </th>
             </tr>
