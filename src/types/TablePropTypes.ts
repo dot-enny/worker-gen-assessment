@@ -11,13 +11,15 @@ interface TableBodyProps {
     selectedLeads: Lead[];
     setSelectedLeads: React.Dispatch<React.SetStateAction<Lead[]>>;
     showLeadDetails: (lead: Lead) => void;
-    filteredLeads: Lead[];
+    leads: Lead[];
+    updateSortOptions: (sortOption: SortOptionType) => void;
 }
 
 interface TableHeaderProps {
     checkbox: React.RefObject<HTMLInputElement | null>;
     checked: boolean;
     toggleAll: () => void;
+    updateSortOptions: (sortOption: SortOptionType) => void;
 }
 interface TableRowsProps {
     leads: Lead[];
@@ -26,4 +28,14 @@ interface TableRowsProps {
     showLeadDetails: (lead: Lead) => void;
 }
 
-export type { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps };
+interface TableSearchProps {
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+}
+
+interface SortOptionType {
+    name: string;
+    type: string;
+}
+
+export type { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps, TableSearchProps, SortOptionType };

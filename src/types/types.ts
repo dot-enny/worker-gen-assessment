@@ -5,6 +5,7 @@ export type Lead = {
     topic: string;
     statusReason: string;
     createdOn: string;
+    [key: string]: string;
 };
 export interface NavItem {
     name: string;

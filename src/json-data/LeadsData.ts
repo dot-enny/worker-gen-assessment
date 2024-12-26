@@ -16,7 +16,7 @@ export const leads: Lead[] = [
     {
         name: "Harrison Curtis",
         topic: "Issue with throughput on EspressoMaster",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "3/28/2024 3:30 PM"
     },
     {
@@ -28,13 +28,13 @@ export const leads: Lead[] = [
     {
         name: "Gerald Stephens",
         topic: "Concerns on current machines",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "3/23/2024 4:50 PM"
     },
     {
         name: "Halle Griffiths",
         topic: "Expanding business",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "3/21/2024 10:20 AM"
     },
     {
@@ -52,7 +52,7 @@ export const leads: Lead[] = [
     {
         name: "Lilly Pyles",
         topic: "Cafe A100 bulk rate",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "3/13/2024 2:45 PM"
     },
     {
@@ -82,7 +82,7 @@ export const leads: Lead[] = [
     {
         name: "Liam Johnson",
         topic: "Request for machine maintenance",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "4/07/2024 2:00 PM"
     },
     {
@@ -94,7 +94,7 @@ export const leads: Lead[] = [
     {
         name: "Noah Davis",
         topic: "Feedback on service",
-        statusReason: "New",
+        statusReason: "Existing",
         createdOn: "4/09/2024 11:45 AM"
     },
     {

@@ -1,83 +1,95 @@
 'use client'
 
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { classNames } from '@/utils/helpers/classNames'
 import { Lead } from '@/types/types';
 import { leads } from '@/json-data/LeadsData';
-import { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps } from '@/types/TablePropTypes';
+import { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps, TableSearchProps } from '@/types/TablePropTypes';
+import SortMenu from './table/Sort';
+import { sortData } from '@/json-data/SortOptions';
+import { useFilterLeads } from '@/hooks/useFilterLeads';
+import { useSortLeads } from '@/hooks/useSortLeads';
+import { useSelectLeads } from '@/hooks/useSelectLeads';
 
-const filterLeads = (leads: Lead[], searchQuery: string) => {
-    return leads.filter(lead =>
-        lead.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.topic.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.statusReason.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        lead.createdOn.toLowerCase().includes(searchQuery.toLowerCase())
+
+const TableContainer = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className="border shadow bg-white mt-8 rounded">
+            {children}
+        </div>
     );
 };
 
-
-export default function Table({ showLeadDetails }: TableProps) {
-    const checkbox = useRef<HTMLInputElement>(null)
-    const [checked, setChecked] = useState(false)
-    const [indeterminate, setIndeterminate] = useState(false)
-    const [selectedLeads, setSelectedLeads] = useState<typeof leads>([])
-    const [searchQuery, setSearchQuery] = useState('')
-
-    useLayoutEffect(() => {
-        const isIndeterminate = selectedLeads.length > 0 && selectedLeads.length < leads.length
-        setChecked(selectedLeads.length === leads.length)
-        setIndeterminate(isIndeterminate)
-        if (checkbox.current) {
-            checkbox.current.indeterminate = isIndeterminate
-        }
-    }, [selectedLeads])
-
-    function toggleAll() {
-        setSelectedLeads(checked || indeterminate ? [] : leads)
-        setChecked(!checked && !indeterminate)
-        setIndeterminate(false)
-    }
-
-    const filteredLeads = filterLeads(leads, searchQuery);
-
+const TableActions = ({ selectedLeads }: { selectedLeads: Lead[] }) => {
     return (
-        <div className="border shadow bg-white mt-8 rounded">
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-            <div className="mt-8 flow-root bg-white overflow-auto">
-                <div className="overflow-auto sm:-mx- lg:-mx-">
-                    <div className="inline-block min-w-full py-2 align-middle sm:px- lg:px-">
-                        <div className="relative">
-                            {selectedLeads.length > 0 && (
-                                <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
-                                    <button
-                                        type="button"
-                                        className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white"
-                                    >
-                                        Delete all
-                                    </button>
-                                </div>
-                            )}
-                            <TableBody checkbox={checkbox} checked={checked} toggleAll={toggleAll} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} filteredLeads={filteredLeads} />
-                        </div>
+        <>
+            {selectedLeads.length > 0 && (
+                <div className="absolute left-14 top-0 flex h-12 items-center space-x-3 bg-white sm:left-12">
+                    <button
+                        type="button"
+                        className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white z-10"
+                    >
+                        Delete all
+                    </button>
+                </div>
+            )}
+        </>
+    );
+};
+
+const TableContent = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <div className="mt-8 flow-root bg-white overflow-auto">
+            <div className="overflow-auto sm:-mx- lg:-mx-">
+                <div className="inline-block min-w-full py-2 align-middle sm:px- lg:px-">
+                    <div className="relative">
+                        {children}
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
+};
+
+export default function Table({ showLeadDetails }: TableProps) {
+    const checkbox = useRef<HTMLInputElement>(null);
+
+    const { searchQuery, setSearchQuery, filteredLeads } = useFilterLeads(leads);
+    const { updateSortOptions, sortedLeads } = useSortLeads(filteredLeads);
+    const { checked, selectedLeads, setSelectedLeads, toggleAll } = useSelectLeads({ checkbox });
+
+    return (
+        <TableContainer>
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            <TableContent>
+                <TableActions selectedLeads={selectedLeads} />
+                <TableBody
+                    checkbox={checkbox}
+                    checked={checked}
+                    toggleAll={toggleAll}
+                    selectedLeads={selectedLeads}
+                    setSelectedLeads={setSelectedLeads}
+                    showLeadDetails={showLeadDetails}
+                    leads={sortedLeads}
+                    updateSortOptions={updateSortOptions}
+                />
+            </TableContent>
+        </TableContainer>
+    );
 };
 
 
-const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, filteredLeads }: TableBodyProps) => {
+const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, leads, updateSortOptions }: TableBodyProps) => {
 
     return (
         <table className="min-w-full table-fixed divide-y divide-gray-300">
-            <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} />
-            <TableRows leads={filteredLeads} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
+            <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} updateSortOptions={updateSortOptions} />
+            <TableRows leads={leads} selectedLeads={selectedLeads} setSelectedLeads={setSelectedLeads} showLeadDetails={showLeadDetails} />
         </table>
     )
 };
 
-const TableHeader = ({ checkbox, checked, toggleAll }: TableHeaderProps) => {
+const TableHeader = ({ checkbox, checked, toggleAll, updateSortOptions }: TableHeaderProps) => {
     return (
         <thead className="">
             <tr>
@@ -113,16 +125,25 @@ const TableHeader = ({ checkbox, checked, toggleAll }: TableHeaderProps) => {
                     </div>
                 </th>
                 <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
-                    Name
+                    <div className="flex">
+                        <span className="mr-4">Name</span>
+                        <SortMenu sortOptions={sortData.nameOptions} updateSortOptions={updateSortOptions} />
+                    </div>
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                     Topic
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Status Reason
+                    <div className="flex">
+                        <span className="mr-4">Status Reason</span>
+                        <SortMenu sortOptions={sortData.statusOptions} updateSortOptions={updateSortOptions} />
+                    </div>
                 </th>
                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                    Created on
+                    <div className="flex">
+                        <span className="mr-4">Created on</span>
+                        <SortMenu sortOptions={sortData.dateOptions} updateSortOptions={updateSortOptions} />
+                    </div>
                 </th>
             </tr>
         </thead>
@@ -201,14 +222,14 @@ const Checkbox = ({ lead, selectedLeads, setSelectedLeads }: { lead: Lead, selec
     )
 };
 
-const SearchBar = ({ searchQuery, setSearchQuery }: { searchQuery: string, setSearchQuery: React.Dispatch<React.SetStateAction<string>> }) => {
+const SearchBar = ({ searchQuery, setSearchQuery }: TableSearchProps) => {
     return (
         <div className="sm:flex sm:items-center m-4">
             <div className="sm:flex-auto">
                 <input
                     type="search"
                     className="w-full border rounded-md shadow-sm sm:w-96 focus:outline-blue-500 outline-offset-0 sm:text-sm px-3 py-2"
-                    placeholder="Sort, filter and search with Copilot"
+                    placeholder="Filter by search"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />

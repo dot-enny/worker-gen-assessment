@@ -6,6 +6,7 @@ import { EnvelopeIcon, SparklesIcon } from '@heroicons/react/24/solid';
 import { ActionButton } from '../sidebar/ActionButton';
 import { Avatar } from '../ui/Avatar';
 import { Lead } from '@/types/types';
+import Tabs from '../ui/Tabs';
 
 interface LeadDetailsModalProps {
     open: boolean,
@@ -41,6 +42,7 @@ const Body = ({ name, topic }: { name: string, topic: string }) => {
                     <span className="text-[10px]">COO &#183; Northwind Traders</span>
                 </div>
             </div>
+
             <div className="rounded-lg p-2 bg-gradient-to-r from-blue-50 to-purple-50 mt-4 flex justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-x-2 text-gray-700 bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
                     <SparklesIcon className="size-4" />
@@ -57,13 +59,17 @@ const Body = ({ name, topic }: { name: string, topic: string }) => {
                     </button>
                 </div>
             </div>
+
+            <div className="mt-5">
+                <Tabs />
+            </div>
         </div>
     )
 };
 
 const Footer = () => {
     return (
-        <div>
+        <div className="flex gap-x-2">
             <ActionButton icon={HandThumbUpIcon} />
             <ActionButton icon={HandThumbDownIcon} />
         </div>
