@@ -1,7 +1,7 @@
 import { leads } from '@/json-data/LeadsData'
 import { useState, useLayoutEffect, RefObject } from 'react'
 
-export const useSelectLeads = ({ checkbox }: { checkbox: RefObject<HTMLInputElement | null> }) => { 
+export const useSelectLeads = (checkbox: RefObject<HTMLInputElement | null>) => { 
 
     const [checked, setChecked] = useState(false)
     const [indeterminate, setIndeterminate] = useState(false)

@@ -1,16 +1,15 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { classNames } from '@/utils/helpers/classNames'
 import { Lead } from '@/types/types';
-import { leads } from '@/json-data/LeadsData';
+import { leads as initialLeads } from '@/json-data/LeadsData';
 import { TableProps, TableBodyProps, TableHeaderProps, TableRowsProps, TableSearchProps } from '@/types/TablePropTypes';
 import SortMenu from './table/Sort';
 import { sortData } from '@/json-data/SortOptions';
 import { useFilterLeads } from '@/hooks/useFilterLeads';
 import { useSortLeads } from '@/hooks/useSortLeads';
 import { useSelectLeads } from '@/hooks/useSelectLeads';
-
 
 const TableContainer = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -20,7 +19,7 @@ const TableContainer = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-const TableActions = ({ selectedLeads }: { selectedLeads: Lead[] }) => {
+const TableActions = ({ selectedLeads, deleteSelectedLeads }: { selectedLeads: Lead[], deleteSelectedLeads: () => void }) => {
     return (
         <>
             {selectedLeads.length > 0 && (
@@ -28,6 +27,7 @@ const TableActions = ({ selectedLeads }: { selectedLeads: Lead[] }) => {
                     <button
                         type="button"
                         className="inline-flex items-center rounded bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white z-10"
+                        onClick={deleteSelectedLeads}
                     >
                         Delete all
                     </button>
@@ -53,16 +53,22 @@ const TableContent = ({ children }: { children: React.ReactNode }) => {
 
 export default function Table({ showLeadDetails }: TableProps) {
     const checkbox = useRef<HTMLInputElement>(null);
+    const [leads, setLeads] = useState(initialLeads);
 
     const { searchQuery, setSearchQuery, filteredLeads } = useFilterLeads(leads);
     const { sortOption, updateSortOption, sortedLeads } = useSortLeads(filteredLeads);
-    const { checked, selectedLeads, setSelectedLeads, toggleAll } = useSelectLeads({ checkbox });
+    const { checked, selectedLeads, setSelectedLeads, toggleAll } = useSelectLeads(checkbox);
+
+    const deleteSelectedLeads = () => {
+        setLeads(leads.filter(lead => !selectedLeads.includes(lead)));
+        setSelectedLeads([]);
+    };
 
     return (
         <TableContainer>
             <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             <TableContent>
-                <TableActions selectedLeads={selectedLeads} />
+                <TableActions selectedLeads={selectedLeads} deleteSelectedLeads={deleteSelectedLeads} />
                 <TableBody
                     checkbox={checkbox}
                     checked={checked}
@@ -79,9 +85,7 @@ export default function Table({ showLeadDetails }: TableProps) {
     );
 };
 
-
 const TableBody = ({ checkbox, checked, toggleAll, selectedLeads, setSelectedLeads, showLeadDetails, leads, updateSortOption, selectedSortOption }: TableBodyProps) => {
-
     return (
         <table className="min-w-full table-fixed divide-y divide-gray-300">
             <TableHeader checkbox={checkbox} checked={checked} toggleAll={toggleAll} updateSortOption={updateSortOption} selectedSortOption={selectedSortOption} />
@@ -183,7 +187,7 @@ const TableRows = ({ leads, selectedLeads, setSelectedLeads, showLeadDetails }: 
     )
 };
 
-const Checkbox = ({ lead, selectedLeads, setSelectedLeads }: { lead: Lead, selectedLeads: typeof leads, setSelectedLeads: React.Dispatch<React.SetStateAction<typeof leads>> }) => {
+const Checkbox = ({ lead, selectedLeads, setSelectedLeads }: { lead: Lead, selectedLeads: Lead[], setSelectedLeads: React.Dispatch<React.SetStateAction<Lead[]>> }) => {
     return (
         <div className="group absolute left-4 top-1/2 -mt-2 grid size-4 grid-cols-1">
             <input
