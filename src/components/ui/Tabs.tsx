@@ -27,7 +27,7 @@ export default function Tabs() {
                                 tab.current ? 'text-gray-900' : 'text-gray-500 hover:text-gray-700',
                                 tabIdx === 0 ? 'rounded-l-lg' : '',
                                 tabIdx === tabs.length - 1 ? 'rounded-r-lg' : '',
-                                'group relative min-w-0 flex- overflow-hidden bg-white px-4 py-2 pt-3 text-center text-sm font-medium hover:bg-gray-50 focus:z-10',
+                                'group relative min-w-0 flex- overflow-hidden bg-white px-4 py-2 pt-3 text-center text-sm font-medium hover:bg-gray-50 focus:z-10 cursor-pointer',
                             )}
                             onClick={() => handleTabSwitch(tab.name)}
                         >

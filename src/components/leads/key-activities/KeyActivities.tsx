@@ -15,7 +15,7 @@ export const KeyActivities = () => {
 
   return (
     <div className="shadow rounded-lg p-4 bg-white">
-      <div className="flex max-md:flex-col items-center gap-x-5 mb-6">
+      <div className="flex max-md:flex-col items-center gap-x-5">
         <div className="flex-1 flex items-center gap-x-1">
           <ArrowPathRoundedSquareIcon className="size-7 text-green-300 max-sm:hidden" />
           <p className="font-semibold max-sm:mb-4">Hi Mona, 68% of goal achieved and rest can be achieved by focusing on 20 top leads.</p>
@@ -26,7 +26,7 @@ export const KeyActivities = () => {
           onClick={toggleOpen}
         />
       </div>
-      <div className={classNames('grid transition-[grid-template-rows_500ms]', isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]')}>
+      <div className={classNames('grid transition-[grid-template-rows_500ms]', isOpen ? 'grid-rows-[1fr] mt-6' : 'grid-rows-[0fr]')}>
         <div className="overflow-hidden max-sm:hidden">
           <Details />
         </div>
